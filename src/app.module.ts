@@ -3,13 +3,49 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BanqueModule } from './banque/banque.module';
 import { CarteCIBModule } from './carteCIB/carteCIB.module';
-import { QrcodeModule} from './qrcode/qrcode.module';
+import { QrcodeModule } from './qrcode/qrcode.module';
 import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { MarchandModule } from './marchand/marchand.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config'
 
 @Module({
-  imports: [UserModule,TransactionModule,MarchandModule, BanqueModule, QrcodeModule, CarteCIBModule],
+  imports: [
+    /**
+     * Load and parse an env file from the root directory dewjdgdjed
+     */
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true,
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory(configService: ConfigService) {
+        const dbConfig: any = {
+          type: 'mysql',
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
+          synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
+          logging: configService.get<boolean>('DB_LOGGING'),
+          autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+        };
+
+        return dbConfig;
+      },
+      inject: [ConfigService],
+    }),
+    UserModule,
+    TransactionModule,
+    MarchandModule,
+    BanqueModule,
+    QrcodeModule,
+    CarteCIBModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
