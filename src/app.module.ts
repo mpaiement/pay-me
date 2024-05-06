@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { BanqueModule } from './banque/banque.module';
-import { CarteCIBModule } from './carteCIB/carteCIB.module';
+import { AccountModule } from './account/account.module';
+import { CardModule } from './card/card.module';
 import { QrcodeModule } from './qrcode/qrcode.module';
 import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
@@ -12,6 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 
 @Module({
   imports: [
+        
     /**
      * Load and parse an env file from the root directory dewjdgdjed
      */
@@ -42,9 +43,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
     UserModule,
     TransactionModule,
     MarchandModule,
-    BanqueModule,
+    AccountModule,
     QrcodeModule,
-    CarteCIBModule,
+    CardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
