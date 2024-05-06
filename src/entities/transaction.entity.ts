@@ -10,8 +10,8 @@ export class Transaction {
     @PrimaryGeneratedColumn('uuid')
     idTransaction: string;
 
-    @Column('vacrhar ') 
-    amount: Decimal128;
+    @Column('decimal') 
+    amount: number;
 
     @CreateDateColumn()
     createdDate: Date

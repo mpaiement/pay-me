@@ -12,16 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: 'root',
-    //   database: 'test',
-    //   entities: [],
-    //   synchronize: true,
-    // }),     
+        
     /**
      * Load and parse an env file from the root directory dewjdgdjed
      */
