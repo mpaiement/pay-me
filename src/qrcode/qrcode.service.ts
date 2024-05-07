@@ -7,7 +7,6 @@ export class QrcodeService {
   }
   createQrcode(): string {
     return 'la routr  du nouveau qrcode';
-
   }
   deleteQrcode(): string {
     return ' le qrcode est supprime ';

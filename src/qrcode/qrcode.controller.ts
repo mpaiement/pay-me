@@ -7,18 +7,18 @@ export class QrcodeController {
 
   @Get()
   getQrcode(): string {
-    return this.qrcodeService.getQrcode()
+    return this.qrcodeService.getQrcode();
   }
   @Post()
   createQrcode(): string {
-    return this.qrcodeService.createQrcode()
+    return this.qrcodeService.createQrcode();
   }
   @Delete()
   deleteQrcode(): string {
-    return this.qrcodeService.deleteQrcode()
+    return this.qrcodeService.deleteQrcode();
   }
   @Put()
   upDateQrcode(): string {
-    return this.qrcodeService.upDateQrcode()
+    return this.qrcodeService.upDateQrcode();
   }
 }

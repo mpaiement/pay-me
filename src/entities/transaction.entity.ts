@@ -1,37 +1,47 @@
-import { Column, CreateDateColumn, Decimal128, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
-import { User } from "./user.entity";
-import { Card } from "./card.entity";
-import { QrCode } from "./qrCode.entity";
-import { Marchand } from "./marchand.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Decimal128,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from './user.entity';
+import { Card } from './card.entity';
+import { QrCode } from './qrCode.entity';
+import { Marchand } from './marchand.entity';
 
-@Entity({name: 'transaction'})
-
+@Entity({ name: 'transaction' })
 export class Transaction {
-    @PrimaryGeneratedColumn('uuid')
-    idTransaction: string;
+  @PrimaryGeneratedColumn('uuid')
+  idTransaction: string;
 
-    @Column('decimal') 
-    amount: number;
+  @Column('decimal')
+  amount: number;
 
-    @CreateDateColumn()
-    createdDate: Date
-    
-    @UpdateDateColumn()
-    updatedDate: Date
+  @CreateDateColumn()
+  createdDate: Date;
 
-    @DeleteDateColumn()
-    deletedDate: Date
+  @UpdateDateColumn()
+  updatedDate: Date;
 
-    @ManyToOne(() => User, (user) => user.transaction)
-    @JoinColumn({name: 'idUser'})
-    idUser: User
+  @DeleteDateColumn()
+  deletedDate: Date;
 
-    @OneToOne(() =>QrCode, (qrcode) => qrcode.transaction) // specify inverse side as a second parameter
-    @JoinColumn()
-    qrcode: QrCode
+  @ManyToOne(() => User, (user) => user.transaction)
+  @JoinColumn({ name: 'idUser' })
+  idUser: User;
 
-    @ManyToOne(() => Marchand, (marchand) => marchand.transaction)
-    @JoinColumn({name: 'idMarchand'})
-    idMarchand: Marchand
+  @OneToOne(() => QrCode) // specify inverse side as a second parameter
+  @JoinColumn()
+  qrcode: QrCode;
 
+  @ManyToOne(() => Marchand, (marchand) => marchand.transaction)
+  @JoinColumn({ name: 'idMarchand' })
+  idMarchand: Marchand;
 }

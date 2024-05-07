@@ -9,5 +9,4 @@ import { Marchand } from 'src/entities/marchand.entity';
   controllers: [MarchandController],
   providers: [MarchandService],
 })
-
 export class MarchandModule {}

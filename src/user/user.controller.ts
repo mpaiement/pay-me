@@ -1,28 +1,30 @@
-import { Controller, Get ,Post , Delete , Put} from "@nestjs/common";
-import { UserService } from "./user.service";
+/* eslint-disable prettier/prettier */
+import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import { UserService } from './user.service';
+import { CreateUserDto } from './user.dto';
 
-@Controller("user")
+@Controller('user')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
-    @Get("login")
-    getUser():string
-    {
-        return this.userService.getUser()
-    }
+  @Get()
+  async getUser() {
+    return await this.userService.getUser();
 
-    @Post("postuser")
-    createUser(): string {
-    return this.userService.createUser()
+    //return this.userService.getUser()
   }
-    @Delete("deleteUser")
-    deleteUser(): string {
-        return this.userService.deleteUser()
-    }
-    @Put("putUser")
-    upDateUser(): string {
-        return this.userService.upDateUser()
-    }
-  
-}
 
+  @Post('create')
+  async createUser(@Body() data: CreateUserDto) {
+    return await this.userService.createUser(data);
+  }
+
+  @Delete('deleteUser')
+  deleteUser(): string {
+    return this.userService.deleteUser();
+  }
+  @Put('putUser')
+  upDateUser(): string {
+    return this.userService.upDateUser();
+  }
+}

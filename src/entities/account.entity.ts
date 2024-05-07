@@ -1,24 +1,26 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity({name: 'account'})
- 
-export class Account{
+@Entity({ name: 'account' })
+export class Account {
+  @PrimaryGeneratedColumn('uuid')
+  idAccount: string;
 
-    @PrimaryGeneratedColumn('uuid')
-    idAccount: string;
+  @Column('varchar')
+  accountNumber: string;
 
-    @Column('varchar')
-    accountNumber: string;
+  @Column('float')
+  amount: string;
 
-    @Column('float')
-    amount: string;
+  @CreateDateColumn()
+  createdDate: Date;
 
-    @CreateDateColumn()
-    createdDate: Date
-    
-    @UpdateDateColumn()
-    updatedDate: Date
-    card: any;
-
-
+  @UpdateDateColumn()
+  updatedDate: Date;
+  card: any;
 }
