@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Param } from '@nestjs/common';
 import { QrcodeService } from './qrcode.service';
 
 @Controller('qrcode')
@@ -20,5 +20,13 @@ export class QrcodeController {
   @Put()
   upDateQrcode(): string {
     return this.qrcodeService.upDateQrcode();
+  }
+
+  @Get(':idMarchand/:amount')
+  async generateQrCode(
+    @Param('idMarchand') idMarchand: string,
+    @Param('amount') amount: number,
+  ) {
+    return await this.generateQrCode(idMarchand, amount);
   }
 }
