@@ -28,7 +28,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       password: '@Kenza123',
       database: 'pay-me',
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     UserModule,
     TransactionModule,

@@ -13,7 +13,7 @@ import { Account } from './account.entity';
 @Entity({ name: 'card' })
 export class Card {
   @PrimaryGeneratedColumn('uuid')
-  idcard: string;
+  idCard: string;
 
   @Column('varchar')
   cardNumber: string;

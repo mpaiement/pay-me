@@ -14,17 +14,19 @@ export class QrCode {
   @PrimaryGeneratedColumn('uuid')
   idqrcode: string;
 
+  @Column()
   url: string;
+  @Column()
+  amount: number;
 
-  @OneToOne(() => Transaction) // specify inverse side as a second parameter
-  @JoinColumn()
-  transaction: Transaction;
+ 
 
   @OneToOne(() => Marchand) // specify inverse side as a second parameter
   @JoinColumn()
-  marchand: Marchand;
+  idMarchand: Marchand['idMarchand'];
 
-  @OneToOne(() => Card) // specify inverse side as a second parameter
-  @JoinColumn()
-  card: Card;
+  
+
+  
+
 }

@@ -1,17 +1,26 @@
-import { Controller, Get, Post, Delete, Put, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Put,
+  Param,
+  Body,
+} from '@nestjs/common';
 import { QrcodeService } from './qrcode.service';
-
+import { CreateQrcodeDto } from './qrcode.dto';
 @Controller('qrcode')
 export class QrcodeController {
   constructor(private readonly qrcodeService: QrcodeService) {}
+
 
   @Get()
   getQrcode(): string {
     return this.qrcodeService.getQrcode();
   }
-  @Post()
-  createQrcode(): string {
-    return this.qrcodeService.createQrcode();
+  @Post('create')
+  async createQrcode(@Body() { idMarchand, url, amount }: CreateQrcodeDto) {
+    return this.qrcodeService.saveQrcode(idMarchand, amount, url);
   }
   @Delete()
   deleteQrcode(): string {

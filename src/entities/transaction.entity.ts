@@ -35,7 +35,7 @@ export class Transaction {
 
   @ManyToOne(() => User, (user) => user.transaction)
   @JoinColumn({ name: 'idUser' })
-  idUser: User;
+  idUser: User['id'];
 
   @OneToOne(() => QrCode) // specify inverse side as a second parameter
   @JoinColumn()
@@ -43,5 +43,5 @@ export class Transaction {
 
   @ManyToOne(() => Marchand, (marchand) => marchand.transaction)
   @JoinColumn({ name: 'idMarchand' })
-  idMarchand: Marchand;
+  idMarchand: Marchand['idMarchand'];
 }
