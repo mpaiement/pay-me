@@ -27,6 +27,6 @@ export class QrcodeController {
     @Param('idMarchand') idMarchand: string,
     @Param('amount') amount: number,
   ) {
-    return await this.generateQrCode(idMarchand, amount);
+    return await this.qrcodeService.generateQrCode(idMarchand, amount);
   }
 }

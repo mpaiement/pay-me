@@ -19,7 +19,7 @@ export class QrcodeService {
     const url = `pay-me/qrcode/${idMarchand}/${amount}`;
     try {
       const qrCodeDataURL = await qrcode.toDataURL(url);
-      console.log(qrCodeDataURL)
+      console.log(qrCodeDataURL);
       return qrCodeDataURL;
     } catch (error) {
       throw new Error('Failed to generate QR code.');
