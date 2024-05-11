@@ -1,28 +1,26 @@
-import { Controller, Get ,Post , Delete , Put} from "@nestjs/common";
-import { MarchandService } from "./marchand.service";
+import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import { MarchandService } from './marchand.service';
+import { CreateMarchandDto } from './marchand.dto';
 
-@Controller("marchand")
+@Controller('marchand')
 export class MarchandController {
-    constructor(private readonly marchandService: MarchandService) {}
+  constructor(private readonly marchandService: MarchandService) {}
 
-    @Get("getMarchand")
-    getMarchand():string
-    {
-        return this.marchandService.getMarchand()
-    }
-
-    @Post("postMarchand")
-    createMarchand(): string {
-    return this.marchandService.createMarchand()
+  @Get('getMarchand')
+  getMarchand(): string {
+    return this.marchandService.getMarchand();
   }
-    @Delete("deleteMarchand")
-    deleteMarchand(): string {
-        return this.marchandService.deleteMarchand()
-    }
-    @Put("putMarchand")
-    upDateMarchand(): string {
-        return this.marchandService.upDateMarchand()
-    }
-  
-}
 
+  @Post('create')
+  async createMarchand(@Body() data: CreateMarchandDto) {
+    return await this.marchandService.createMarchand(data);
+  }
+  @Delete('deleteMarchand')
+  deleteMarchand(): string {
+    return this.marchandService.deleteMarchand();
+  }
+  @Put('putMarchand')
+  upDateMarchand(): string {
+    return this.marchandService.upDateMarchand();
+  }
+}

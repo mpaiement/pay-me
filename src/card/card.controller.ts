@@ -1,5 +1,6 @@
-import { Controller , Get, Post, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
 import { CardService } from './card.service';
+import { CreateCardDto } from './card.dto';
 
 @Controller('card')
 export class CardController {
@@ -7,18 +8,18 @@ export class CardController {
 
   @Get()
   getCard(): string {
-    return this.cardService.getCard()
+    return this.cardService.getCard();
   }
-  @Post()
-  createCard(): string {
-    return this.cardService.createCard()
+  @Post('create')
+  createCard(@Body() data: CreateCardDto) {
+    return this.cardService.createCard(data);
   }
   @Delete()
   deleteCard(): string {
-    return this.cardService.deleteCard()
+    return this.cardService.deleteCard();
   }
   @Put()
   upDateCard(): string {
-    return this.cardService.upDateCard()
+    return this.cardService.upDateCard();
   }
 }

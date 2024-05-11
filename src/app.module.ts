@@ -8,11 +8,10 @@ import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { MarchandModule } from './marchand/marchand.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-        
     /**
      * Load and parse an env file from the root directory dewjdgdjed
      */

@@ -1,29 +1,40 @@
-import { Entity, PrimaryColumn, Column, Unique, OneToMany, OneToOne, JoinColumn, Decimal128 } from "typeorm";
-import { Transaction } from "./transaction.entity";
-import { Card } from "./card.entity";
+/* eslint-disable prettier/prettier */
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  Unique,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+  
+} from 'typeorm';
+import { Transaction } from './transaction.entity';
+import { Card } from './card.entity';
 
 @Entity({ name: 'user' })
-@Unique ('uniqueEmail', ['email'])
-
+@Unique('uniqueEmail', ['email'])
 export class User {
-    @PrimaryColumn('varchar')
-    id: string;
+  @PrimaryColumn('varchar')
+  idUser: string;
 
-    @Column('varchar')
-    name: string;
+  @Column('varchar')
+  name: string;
 
-    @Column('varchar')
-    email: string;
+  @Column('varchar')
+  email: string;
 
-    @Column('varchar')
-    phone: Decimal128;
-    
-    @OneToMany(() => Transaction, (transaction) => transaction.idUser)
-    transaction: Transaction;
-    
-    
-    @OneToOne(() => Card, (card) => card.user) // specify inverse side as a second parameter
-    @JoinColumn()
-    card: Card
+  @Column('varchar')
+  phone: string;
 
+  @OneToMany(() => Transaction, (transaction) => transaction.idUser)
+  transaction: Transaction;
+
+  @OneToOne(() => Card) 
+  @JoinColumn({
+    name:'idCard',
+    referencedColumnName: 'idCard',
+    foreignKeyConstraintName:'FK_user_card',
+})
+  idCard: Card['idCard'];
 }

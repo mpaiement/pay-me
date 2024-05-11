@@ -9,5 +9,4 @@ import { Transaction } from 'src/entities/transaction.entity';
   controllers: [TransactionController],
   providers: [TransactionService],
 })
-
 export class TransactionModule {}

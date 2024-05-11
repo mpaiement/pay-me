@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
 import { AccountService } from './account.service';
-
+import { CreateAccountDto } from './account.dto';
 
 @Controller('account')
 export class AccountController {
@@ -8,18 +8,18 @@ export class AccountController {
 
   @Get()
   getAccount(): string {
-    return this.accountService.getAccount()
+    return this.accountService.getAccount();
   }
-  @Post()
-  createAccount(): string {
-    return this.accountService.createAccount()
+  @Post('create')
+  createAccount(@Body() data: CreateAccountDto) {
+    return this.accountService.createAccount(data);
   }
   @Delete()
   deleteAccount(): string {
-    return this.accountService.deleteAccount()
+    return this.accountService.deleteAccount();
   }
   @Put()
   upDateAccount(): string {
-    return this.accountService.upDateAccount()
+    return this.accountService.upDateAccount();
   }
 }

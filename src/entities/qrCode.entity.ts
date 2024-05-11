@@ -1,22 +1,28 @@
-import { Column, Decimal128, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { UUID } from "typeorm/driver/mongodb/bson.typings";
-import { Marchand } from "./marchand.entity";
-import { Card } from "./card.entity";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Marchand } from './marchand.entity';
 
-@Entity({name:'qrCode'})
+@Entity({ name: 'qr_code' })
+export class QrCode {
+  @PrimaryGeneratedColumn('uuid')
+  idQrcode: string;
 
-export class QrCode{
-    @PrimaryGeneratedColumn('uuid')
-    idqrcode: string;
-    
-    transaction: any;
+  @Column('text')
+  url: string;
 
-    @OneToOne(() =>Marchand, (marchand) => marchand.qrcode) // specify inverse side as a second parameter
-    @JoinColumn()
-    marchand: Marchand;
+  @Column('decimal', { precision: 10, scale: 2 })
+  amount: number;
 
-    @OneToOne(() =>Card, (card) => card.qrcode) // specify inverse side as a second parameter
-    @JoinColumn()
-    card: Card;
-
+  @OneToOne(() => Marchand)
+  @JoinColumn({
+    name: 'idMarchand',
+    referencedColumnName: 'idMarchand',
+    foreignKeyConstraintName: 'FK_qrcode_marchand',
+  })
+  idMarchand: Marchand['idMarchand'];
 }
