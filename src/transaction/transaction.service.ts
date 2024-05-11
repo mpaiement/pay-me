@@ -9,16 +9,9 @@ export class TransactionService {
   @InjectRepository(Transaction)
   private readonly transactionRepository: Repository<Transaction>;
 
-
-  async saveTransaction(idMarchand: string, idUser: string, amount: number) {
+  async saveTransaction(data: CreateTransactionDto) {
     try {
-      const transaction = new Transaction();
-      transaction.idMarchand = idMarchand;
-      transaction.idUser = idUser;
-      transaction.amount = amount;
-
-      const saveTransaction =
-        await this.transactionRepository.save(transaction);
+      const saveTransaction = await this.transactionRepository.save(data);
       return saveTransaction;
     } catch (error) {
       return Error('Failed to save transaction.');

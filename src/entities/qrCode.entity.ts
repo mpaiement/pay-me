@@ -7,17 +7,18 @@ import {
 } from 'typeorm';
 import { Marchand } from './marchand.entity';
 
-@Entity({ name: 'qrCode' })
+@Entity({ name: 'qr_code' })
 export class QrCode {
   @PrimaryGeneratedColumn('uuid')
   idQrcode: string;
 
-  @Column()
+  @Column('text')
   url: string;
-  @Column()
+
+  @Column('decimal', { precision: 10, scale: 2 })
   amount: number;
 
-  @OneToOne(() => Marchand) // specify inverse side as a second parameter
+  @OneToOne(() => Marchand)
   @JoinColumn({
     name: 'idMarchand',
     referencedColumnName: 'idMarchand',

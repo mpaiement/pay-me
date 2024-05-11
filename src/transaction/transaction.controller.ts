@@ -6,18 +6,7 @@ import { CreateTransactionDto } from './transaction.dto';
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-  async saveTransaction(idMarchand: string, idUser: string, amount: number) {
-    try {
-      const saveTransaction = await this.transactionService.saveTransaction(
-        idMarchand,
-        idUser,
-        amount,
-      );
-      return saveTransaction;
-    } catch (error) {
-      return Error('Failed to save transaction.');
-    }
-  }
+  
 
   @Get('getTransaction')
   getTransaction(): string {
@@ -26,9 +15,9 @@ export class TransactionController {
 
   @Post('create')
   async createTransaction(
-    @Body() { idUser, idMarchand, amount }: CreateTransactionDto,
+    @Body() data: CreateTransactionDto,
   ) {
-    return this.transactionService.saveTransaction(idUser, idMarchand, amount);
+    return this.transactionService.saveTransaction(data);
   }
   @Delete('deleteTransaction')
   deleteTransaction(): string {
