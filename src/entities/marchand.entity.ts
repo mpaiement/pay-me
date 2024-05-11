@@ -23,12 +23,16 @@ export class Marchand {
   email: string;
 
   @Column('varchar')
-  phone: Decimal128;
+  phone: string;
 
   @OneToMany(() => Transaction, (transaction) => transaction.idMarchand)
   transaction: Transaction;
 
-  @OneToOne(() => Card) // specify inverse side as a second parameter
-  @JoinColumn()
-  card: Card;
+  @OneToOne(() => Card)
+  @JoinColumn({
+    name: 'idCard',
+    referencedColumnName: 'idCard',
+    foreignKeyConstraintName: 'FK_marchand_card',
+  })
+  idCard: Card['idCard'];
 }

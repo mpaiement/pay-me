@@ -1,18 +1,16 @@
 import {
   Column,
   CreateDateColumn,
-  Decimal128,
   DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
-  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
-import { Card } from './card.entity';
+
 import { QrCode } from './qrCode.entity';
 import { Marchand } from './marchand.entity';
 
@@ -34,14 +32,26 @@ export class Transaction {
   deletedDate: Date;
 
   @ManyToOne(() => User, (user) => user.transaction)
-  @JoinColumn({ name: 'idUser' })
-  idUser: User['id'];
+  @JoinColumn({
+    name: 'idUser',
+    referencedColumnName: 'idUser',
+    foreignKeyConstraintName: 'FK_transaction_user',
+  })
+  idUser: User['idUser'];
 
   @OneToOne(() => QrCode) // specify inverse side as a second parameter
-  @JoinColumn()
-  qrcode: QrCode;
+  @JoinColumn({
+    name: 'idQrcode',
+    referencedColumnName: 'idQrcode',
+    foreignKeyConstraintName: 'FK_transaction_qrcode',
+  })
+  idQrcode: QrCode['idQrcode'];
 
   @ManyToOne(() => Marchand, (marchand) => marchand.transaction)
-  @JoinColumn({ name: 'idMarchand' })
+  @JoinColumn({
+    name: 'idMarchand',
+    referencedColumnName: 'idMarchand',
+    foreignKeyConstraintName: 'FK_transaction_marchand',
+  })
   idMarchand: Marchand['idMarchand'];
 }

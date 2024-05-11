@@ -33,7 +33,11 @@ export class Card {
   @DeleteDateColumn()
   deletedDate: Date;
 
-  @OneToOne(() => Account) // specify inverse side as a second parameter
-  @JoinColumn()
-  account: Account;
+  @OneToOne(() => Account)
+  @JoinColumn({
+    name: 'idAccount',
+    referencedColumnName: 'idAccount',
+    foreignKeyConstraintName: 'FK_card_account',
+  })
+  idAccount: Account['idAccount'];
 }

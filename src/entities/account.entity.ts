@@ -22,5 +22,4 @@ export class Account {
 
   @UpdateDateColumn()
   updatedDate: Date;
-  card: any;
 }

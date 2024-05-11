@@ -20,15 +20,24 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       cache: true,
       envFilePath: '.env',
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '@Kenza123',
-      database: 'pay-me',
-      autoLoadEntities: true,
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory(configService: ConfigService) {
+        const dbConfig: any = {
+          type: 'mysql',
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
+          synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
+          logging: configService.get<boolean>('DB_LOGGING'),
+          autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+        };
+
+        return dbConfig;
+      },
+      inject: [ConfigService],
     }),
     UserModule,
     TransactionModule,
