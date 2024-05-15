@@ -37,9 +37,8 @@ export class QrcodeService {
   }
   async saveQrcode(idMarchand: string, amount: number, url: string) {
     try {
-    
       const saveQrcode = await this.qrcodeRepository.save({
-       idMarchand,
+        idMarchand,
         url,
         amount,
       });

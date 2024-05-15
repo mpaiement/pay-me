@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+// import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AccountModule } from './account/account.module';
@@ -9,7 +10,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import { MarchandModule } from './marchand/marchand.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import * as cors from 'cors';
 @Module({
   imports: [
     /**
@@ -49,4 +50,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(cors())
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

@@ -10,8 +10,8 @@ export class CreateUserCardDto {
   @IsString()
   idUser: string;
 
-  @IsString()
-  name: string;
+  // @IsString()
+  // name: string;
 
   @IsEmail()
   email: string;

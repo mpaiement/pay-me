@@ -35,7 +35,7 @@ export class UserService {
     const card = await this.cardService.createCard(data);
     const user = this.usersRepository.create({
       idUser: idUser,
-      name: data.name,
+      // name: data.name,
     email: data.email,
     phone: data.phone,
       
