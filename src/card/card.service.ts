@@ -9,6 +9,7 @@ export class CardService {
   constructor(
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
+    
   ) {}
   getCard(): string {
     return 'la route de card';

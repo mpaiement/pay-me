@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './user.dto';
+// import { CreateUserDto } from './user.dto';
+import { CreateUserCardDto } from './usercard.dto';
 
 @Controller('user')
 export class UserController {
@@ -15,8 +16,9 @@ export class UserController {
   }
 
   @Post('create')
-  async createUser(@Body() data: CreateUserDto) {
-    return await this.userService.createUser(data);
+  async createUser(@Body() data: CreateUserCardDto) {
+    const idUser = data.idUser;
+    return await this.userService.createUser(idUser, data);
   }
 
   @Delete('deleteUser')
