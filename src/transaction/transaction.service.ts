@@ -79,12 +79,15 @@ export class TransactionService {
     return { userEnvoi, marchandRecevoir };
   }
 
-  getTransaction() {
-    return 'Route de la transaction';
+  async getHistorique(idUser: string) {
+    const historique = await this.usersRepository.query(`
+    select * from transaction
+    INNER JOIN user ON user.idUser = transaction.idUser
+    where transaction.idUser = '${idUser}'
+    `);
+    return historique;
   }
-  // createTransaction() {
-  //   return 'nom de la transaction';
-  // }
+
   deleteTransaction() {
     return ' la transaction est supprimé';
   }
