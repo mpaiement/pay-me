@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 // import { CreateUserDto } from './user.dto';
 import { CreateUserCardDto } from './usercard.dto';
@@ -14,6 +14,15 @@ export class UserController {
 
     //return this.userService.getUser()
   }
+  @Get(':idUser')
+    async recupererUser(@Param('idUser') idUser: string,
+    
+    )
+    {
+
+    return await  this.userService.recupererUser(idUser);
+  }
+
 
   @Post('create')
   async createUser(@Body() data: CreateUserCardDto) {
