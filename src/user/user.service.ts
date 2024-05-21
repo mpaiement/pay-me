@@ -30,11 +30,15 @@ export class UserService {
 
   async recupererUser(idUser: string){
     const result = await this.usersRepository.findOneBy({ idUser });
-    
+     
     return result;
-
-
+    
   }
+
+  
+
+
+
   //  async createUser(data: CreateUserDto) {
   //    const result = await this.usersRepository.save(data);
   //   return result;
