@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 //import { CreateUserDto } from './user.dto';
 import { CreateUserCardDto } from './usercard.dto';
 import { CardService } from 'src/card/card.service';
+import { Card } from 'src/entities/card.entity';
+import { UpdateUserCardDto } from './user-card.dto';
 
 
 @Injectable()
@@ -17,6 +19,8 @@ export class UserService {
 
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Card)
+    private cardRepository: Repository<Card>,
     
     
    
@@ -28,17 +32,35 @@ export class UserService {
     return result;
    }
 
-  async recupererUser(idUser: string){
-    const result = await this.usersRepository.findOneBy({ idUser });
+  async recupererUser(idUser:string){
+    const result = await this.usersRepository.query(`
     
+    select * from user
+      INNER JOIN card ON card.idCard = user.idCard
+      where user.idUser ='${idUser}'
+    `)
     return result;
-
-
   }
-  //  async createUser(data: CreateUserDto) {
-  //    const result = await this.usersRepository.save(data);
-  //   return result;
-  //  }
+
+  
+  async updateUser(idUser: string, data: UpdateUserCardDto) {
+   
+    const user = await this.usersRepository.findOneBy({ idUser });
+    const updateUser=await this.usersRepository.update(idUser, 
+      data
+      );
+
+      const updateCard =await this.cardRepository.update(user.idCard, 
+       data
+      );
+    
+    return {...updateUser,...updateCard}
+  }
+
+
+
+
+
   async createUser(idUser: string, data: CreateUserCardDto) {
     const card = await this.cardService.createCard(data);
     const user = this.usersRepository.create({
@@ -58,7 +80,5 @@ export class UserService {
   deleteUser() {
     return ' le user est supprimé';
   }
-  upDateUser() {
-    return 'modification du username';
-  }
+  
 }
