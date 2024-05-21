@@ -6,17 +6,13 @@ import { CreateTransactionDto } from './transaction.dto';
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-  
-
   @Get('getTransaction')
   getTransaction(): string {
     return this.transactionService.getTransaction();
   }
 
   @Post('create')
-  async createTransaction(
-    @Body() data: CreateTransactionDto,
-  ) {
+  async createTransaction(@Body() data: CreateTransactionDto) {
     return this.transactionService.saveTransaction(data);
   }
   @Delete('deleteTransaction')
