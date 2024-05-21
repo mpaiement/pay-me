@@ -15,12 +15,9 @@ export class UserController {
     //return this.userService.getUser()
   }
   @Get(':idUser')
-    async recupererUser(@Param('idUser') idUser: string,
-    
-    )
+    async recupererUser(@Param('idUser') idUser: string,)
     {
-
-    return await  this.userService.recupererUser(idUser);
+  return await  this.userService.recupererUser(idUser);
   }
 
 

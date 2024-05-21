@@ -28,12 +28,12 @@ export class UserService {
     return result;
    }
 
-  async recupererUser(){
+  async recupererUser(idUser:string){
     const result = await this.usersRepository.query(`
     
     select * from user
       INNER JOIN card ON card.idCard = user.idCard
-      where user.idUser =$({idUser})
+      where user.idUser =${idUser}
     `)
     return result;
   }
