@@ -61,7 +61,7 @@ export class UserService {
       name: data.name,
     email: data.email,
     phone: data.phone,
-      
+    cni: data.cni,
     idCard: card.idCard,
     });
     const result = await this.usersRepository.save( user);

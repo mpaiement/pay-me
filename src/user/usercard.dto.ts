@@ -27,4 +27,7 @@ export class CreateUserCardDto {
 
   @IsDate()
   expiryDate: string;
+  
+  @IsNumber()
+  cni: string;
 }
