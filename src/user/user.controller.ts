@@ -25,8 +25,8 @@ export class UserController {
   deleteUser(): string {
     return this.userService.deleteUser();
   }
-  @Put('putUser')
-  upDateUser(): string {
-    return this.userService.upDateUser();
-  }
+  // @Put('putUser')
+  // upDateUser(): string {
+  //   return this.userService.upDateUser();
+  // }
 }

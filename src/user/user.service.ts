@@ -48,11 +48,11 @@ export class UserService {
 
     
    }
-
+   async upDateUser() {
+    return 'modification du username';
+  }
   deleteUser() {
     return ' le user est supprimé';
   }
-  upDateUser() {
-    return 'modification du username';
-  }
+  
 }
