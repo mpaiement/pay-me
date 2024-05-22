@@ -31,8 +31,8 @@ export class UserController {
   deleteUser(): string {
     return this.userService.deleteUser();
   }
-  @Put('putUser')
-  upDateUser(): string {
-    return this.userService.upDateUser();
+  @Put(':idUser')
+  async updateUser(@Param('idUser') idUser: string, @Body() data: CreateUserCardDto) {
+    return await this.userService.updateUser(idUser, data);
   }
 }

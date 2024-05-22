@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 //import { CreateUserDto } from './user.dto';
 import { CreateUserCardDto } from './usercard.dto';
 import { CardService } from 'src/card/card.service';
+import { Card } from 'src/entities/card.entity';
 
 
 @Injectable()
@@ -17,6 +18,8 @@ export class UserService {
 
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Card)
+    private cardRepository: Repository<Card>,
     
     
    
@@ -39,13 +42,32 @@ export class UserService {
   }
 
   
+  async updateUser(idUser: string, data: CreateUserCardDto) {
+   
+    // const user = await this.usersRepository.findOneBy( 'idUser' )
+    const user = await this.usersRepository.findOneBy({ idUser });
+
+    await this.usersRepository.update(idUser, {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+    });
+
+      await this.cardRepository.update(user.idCard, {
+        cardNumber: data.cardNumber,
+        cvv: data.cvv,
+        expiryDate: data.expiryDate,
+      });
+    
+      const result = await this.usersRepository.save( user);
+
+    return {result}
+  }
 
 
 
-  //  async createUser(data: CreateUserDto) {
-  //    const result = await this.usersRepository.save(data);
-  //   return result;
-  //  }
+
+
   async createUser(idUser: string, data: CreateUserCardDto) {
     const card = await this.cardService.createCard(data);
     const user = this.usersRepository.create({
@@ -65,7 +87,5 @@ export class UserService {
   deleteUser() {
     return ' le user est supprimé';
   }
-  upDateUser() {
-    return 'modification du username';
-  }
+  
 }
