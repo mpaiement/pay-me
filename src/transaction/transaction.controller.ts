@@ -15,11 +15,6 @@ import { CreateTransactionMoneyDto } from './transactionmoney.dto';
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-<<<<<<< HEAD
-  @Get('getTransaction')
-  getTransaction(): string {
-    return this.transactionService.getTransaction();
-=======
   @Get('historique/:idUser')
   async getHistorique(@Param('idUser') idUser: string) {
     return this.transactionService.getHistorique(idUser);
@@ -29,7 +24,6 @@ export class TransactionController {
   async getTransferMoney(@Param() data: CreateTransactionMoneyDto) {
     console.log('🚀 ~ TransactionController ~ getTransferMoney ~ data:', data);
     return this.transactionService.transferMoney(data);
->>>>>>> 89e5a8863329df78c85584d78af5100c78773ba0
   }
 
   @Post('create')
