@@ -46,8 +46,8 @@ export class UserService {
   async updateUser(idUser: string, data: UpdateUserCardDto) {
    
     const user = await this.usersRepository.findOneBy({ idUser });
-    const updateUser=await this.usersRepository.update(idUser, 
-      data
+      const updateUser=await this.usersRepository.update(idUser, 
+       data
       );
 
       const updateCard =await this.cardRepository.update(user.idCard, 
@@ -57,11 +57,6 @@ export class UserService {
     return {...updateUser,...updateCard}
   }
   
-  
-
-
-
-
   async createUser(idUser: string, data: CreateUserCardDto) {
     const card = await this.cardService.createCard(data);
     const user = this.usersRepository.create({
