@@ -1,14 +1,35 @@
-import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Put,
+  Body,
+  Param,
+} from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './transaction.dto';
+import { CreateTransactionMoneyDto } from './transactionmoney.dto';
 
 @Controller('transaction')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
+<<<<<<< HEAD
   @Get('getTransaction')
   getTransaction(): string {
     return this.transactionService.getTransaction();
+=======
+  @Get('historique/:idUser')
+  async getHistorique(@Param('idUser') idUser: string) {
+    return this.transactionService.getHistorique(idUser);
+  }
+
+  @Get('transferMoney/:idUser/:amount/:idMarchand')
+  async getTransferMoney(@Param() data: CreateTransactionMoneyDto) {
+    console.log('🚀 ~ TransactionController ~ getTransferMoney ~ data:', data);
+    return this.transactionService.transferMoney(data);
+>>>>>>> 89e5a8863329df78c85584d78af5100c78773ba0
   }
 
   @Post('create')
