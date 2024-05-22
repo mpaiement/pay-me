@@ -33,7 +33,7 @@ export class UserService {
     
     select * from user
       INNER JOIN card ON card.idCard = user.idCard
-      where user.idUser =${idUser}
+      where user.idUser ='${idUser}'
     `)
     return result;
   }
