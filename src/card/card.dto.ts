@@ -9,4 +9,7 @@ export class CreateCardDto {
 
   @IsDate()
   expiryDate: string;
+
+  @IsNumber()
+  cni: string;
 }

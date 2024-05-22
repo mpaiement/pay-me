@@ -30,6 +30,9 @@ export class User {
 
   @Column('varchar')
   phone: string;
+  
+  @Column('varchar')
+  cni: string;
 
   @OneToMany(() => Transaction, (transaction) => transaction.idUser)
   transaction: Transaction;
