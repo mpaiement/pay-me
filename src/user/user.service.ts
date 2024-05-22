@@ -42,8 +42,10 @@ export class UserService {
     idCard: card.idCard,
     });
     const result = await this.usersRepository.save( user);
+    
 
-    return {card: card, user: result}
+    return {...card, ...result}
+
     
    }
 
