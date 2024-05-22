@@ -6,23 +6,18 @@
 //   await app.listen(3000);
 // }
 // bootstrap();
+
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import * as cors from 'cors';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const configService = app.get(ConfigService);
+  const app = await NestFactory.create(AppModule);
 
-  // Configuration CORS
-  app.enableCors({
-    origin: configService.get<string>('FRONTEND_URL'), // URL de votre frontend
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
+  // Activer CORS
+  app.use(cors());
 
   await app.listen(3000);
 }
 bootstrap();
-
