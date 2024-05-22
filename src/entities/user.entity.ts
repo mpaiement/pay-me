@@ -11,10 +11,14 @@ import {
 } from 'typeorm';
 import { Transaction } from './transaction.entity';
 import { Card } from './card.entity';
+import { UpdateUserCardDto } from 'src/user/user-card.dto';
 
 @Entity({ name: 'user' })
 @Unique('uniqueEmail', ['email'])
 export class User {
+  static idCard(idCard: any, data: UpdateUserCardDto) {
+    throw new Error('Method not implemented.');
+  }
   @PrimaryColumn('varchar')
   idUser: string;
 

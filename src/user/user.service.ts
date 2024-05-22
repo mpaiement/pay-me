@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CreateUserCardDto } from './usercard.dto';
 import { CardService } from 'src/card/card.service';
 import { Card } from 'src/entities/card.entity';
+import { UpdateUserCardDto } from './user-card.dto';
 
 
 @Injectable()
@@ -42,26 +43,18 @@ export class UserService {
   }
 
   
-  async updateUser(idUser: string, data: CreateUserCardDto) {
+  async updateUser(idUser: string, data: UpdateUserCardDto) {
    
-    // const user = await this.usersRepository.findOneBy( 'idUser' )
     const user = await this.usersRepository.findOneBy({ idUser });
+    const updateUser=await this.usersRepository.update(idUser, 
+      data
+      );
 
-    await this.usersRepository.update(idUser, {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-    });
-
-      await this.cardRepository.update(user.idCard, {
-        cardNumber: data.cardNumber,
-        cvv: data.cvv,
-        expiryDate: data.expiryDate,
-      });
+      const updateCard =await this.cardRepository.update(user.idCard, 
+       data
+      );
     
-      const result = await this.usersRepository.save( user);
-
-    return {result}
+    return {...updateUser,...updateCard}
   }
 
 
