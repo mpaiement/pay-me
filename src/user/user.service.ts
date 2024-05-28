@@ -66,9 +66,6 @@ export class UserService {
   }
 
 
-
-
-
   async createUser(idUser: string, data: CreateUserCardDto) {
     const card = await this.cardService.createCard(data);
     const user = this.usersRepository.create({

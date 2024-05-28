@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body, Param } from '@nestjs/common';
 import { MarchandService } from './marchand.service';
 import { CreateMarchandDto } from './marchand.dto';
 
@@ -9,6 +9,10 @@ export class MarchandController {
   @Get('getMarchand')
   getMarchand(): string {
     return this.marchandService.getMarchand();
+  }
+  @Get(':idMarchand')
+  async recupererMarchand(@Param('idMarchand') idMarchand: string) {
+    return await this.marchandService.recupererMarchand(idMarchand);
   }
 
   @Post('create')

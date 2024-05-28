@@ -13,6 +13,14 @@ export class MarchandService {
   getMarchand() {
     return 'Route de get du Marchand';
   }
+  async recupererMarchand(idMarchand: string) {
+    const result = await this.marchandRepository.query(`
+    select * from marchand
+      where marchand.idMarchand ='${idMarchand}'
+    `);
+    return result;
+  }
+
   async createMarchand(data: CreateMarchandDto) {
     console.log(data);
     const result = await this.marchandRepository.save(data);
