@@ -55,30 +55,24 @@ export class TransactionService {
       );
     }
 
-    // const userEnvoi = await this.accountRepository.query(`
-    //  update account 
-    //   INNER JOIN card ON account.idAccount = card.idAccount
-    //   INNER JOIN user ON user.idCard = card.idCard
-    //   set amount = (amount - ${amount})
-    //   where idUser = '${idUser}'
-    // `);
-    // const marchandRecevoir = await this.accountRepository.query(`
-    //   update account 
+    const userEnvoi = await this.accountRepository.query(`
+     update account
+      INNER JOIN card ON account.idAccount = card.idAccount
+      INNER JOIN user ON user.idCard = card.idCard
+      set amount = (amount - ${amount})
+      where idUser = '${idUser}'
+    `);
+    const marchandRecevoir = await this.accountRepository.query(`
+      update account
 
-    //   INNER JOIN card ON account.idAccount = card.idAccount
-    //   INNER JOIN marchand ON marchand.idCard = card.idCard
-    //   set amount = (amount + ${amount})
-    //   where idMarchand = '${idMarchand}'
-    // `);
+      INNER JOIN card ON account.idAccount = card.idAccount
+      INNER JOIN marchand ON marchand.idCard = card.idCard
+      set amount = (amount + ${amount})
+      where idMarchand = '${idMarchand}'
+    `);
 
-    // console.log('🚀 ~ TransactionService ~ transferMoney ~ amount:', amount);
-    // console.log(
-    //   '🚀 ~ TransactionService ~ transferMoney ~ userAmount:',
-    //   userAmount.amount,
-    // );
-    // return { userEnvoi, marchandRecevoir };
+    return { userEnvoi, marchandRecevoir };
   }
-
   async getHistorique(idUser: string) {
     const historique = await this.usersRepository.query(`
     select * from transaction

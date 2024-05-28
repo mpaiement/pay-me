@@ -47,13 +47,17 @@ export class UserService {
        data
       );
 
-      const updateCard =await this.cardRepository.update(user.idCard, 
+      const updateCard =await this.cardRepository.update({idCard: user.idCard}, 
        data
       );
     
     return {...updateUser,...updateCard}
   }
-  
+
+
+
+
+
   async createUser(idUser: string, data: CreateUserCardDto) {
     const card = await this.cardService.createCard(data);
     const user = this.usersRepository.create({
@@ -70,8 +74,8 @@ export class UserService {
     
    }
 
-  deleteUser() {
-    return ' le user est supprimé';
-  }
-  
+   async deleteUser(idUser: string) {
+    const user = await this.usersRepository.findOneBy({ idUser });
+    await this.usersRepository.delete(user.idUser);
+}
 }
