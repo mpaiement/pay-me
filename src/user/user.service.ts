@@ -40,16 +40,27 @@ export class UserService {
   }
 
   
+  
   async updateUser(idUser: string, data: UpdateUserCardDto) {
    
     const user = await this.usersRepository.findOneBy({ idUser });
+    const { name, email, phone ,cni } = data;
       const updateUser=await this.usersRepository.update(idUser, 
-       data
-      );
+        {
+          name,
+          email,
+          phone,
+          cni
+      });
 
+      const { cardNumber, cvv } = data;
       const updateCard =await this.cardRepository.update({idCard: user.idCard}, 
-       data
-      );
+        {
+          cardNumber,
+          cvv
+          
+      });
+      
     
     return {...updateUser,...updateCard}
   }
