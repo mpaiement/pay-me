@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString, IsEmail, IsPhoneNumber } from 'class-validator';
+import { IsString, IsEmail, IsPhoneNumber, IsNumber } from 'class-validator';
 export class CreateUserDto {
   @IsString()
   idUser: string;
@@ -12,4 +12,7 @@ export class CreateUserDto {
 
   @IsPhoneNumber()
   phone: string;
+  @IsNumber()
+  cni: string;
+
 }

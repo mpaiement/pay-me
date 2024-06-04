@@ -40,20 +40,32 @@ export class UserService {
   }
 
   
+  
   async updateUser(idUser: string, data: UpdateUserCardDto) {
    
     const user = await this.usersRepository.findOneBy({ idUser });
+    const { name, email, phone ,cni } = data;
       const updateUser=await this.usersRepository.update(idUser, 
-       data
-      );
+        {
+          name,
+          email,
+          phone,
+          cni
+      });
 
-      const updateCard =await this.cardRepository.update(user.idCard, 
-       data
-      );
+      const { cardNumber, cvv } = data;
+      const updateCard =await this.cardRepository.update({idCard: user.idCard}, 
+        {
+          cardNumber,
+          cvv
+          
+      });
+      
     
     return {...updateUser,...updateCard}
   }
-  
+
+
   async createUser(idUser: string, data: CreateUserCardDto) {
     const card = await this.cardService.createCard(data);
     const user = this.usersRepository.create({
@@ -70,8 +82,8 @@ export class UserService {
     
    }
 
-  deleteUser() {
-    return ' le user est supprimé';
-  }
-  
+   async deleteUser(idUser: string) {
+    const user = await this.usersRepository.findOneBy({ idUser });
+    await this.usersRepository.delete(user.idUser);
+}
 }

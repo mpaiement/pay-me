@@ -28,12 +28,17 @@ export class UserController {
     return await this.userService.createUser(idUser, data);
   }
 
-  @Delete('deleteUser')
-  deleteUser(): string {
-    return this.userService.deleteUser();
-  }
+  // @Delete(':idUser')
+  // async deleteUser(@Param('idUser') idUser: string) {
+  //   await this.userService.deleteUser(idUser);
+  // }
+
   @Patch(':idUser')
   async updateUser(@Param('idUser') idUser: string, @Body() data: UpdateUserCardDto) {
     return await this.userService.updateUser(idUser, data);
+  }
+  @Delete(':idUser')
+  deleteUser(@Param('idUser') idUser: string) {
+    return this.userService.deleteUser(idUser);
   }
 }

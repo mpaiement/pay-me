@@ -9,6 +9,8 @@ import { TransactionModule } from './transaction/transaction.module';
 import { MarchandModule } from './marchand/marchand.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HealthModule } from './health/health.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       isGlobal: true,
       cache: true,
       envFilePath: '.env',
+
     }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory(configService: ConfigService) {
@@ -45,6 +49,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     AccountModule,
     QrcodeModule,
     CardModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
