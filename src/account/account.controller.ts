@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body, Param, } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './account.dto';
 
@@ -21,5 +21,9 @@ export class AccountController {
   @Put()
   upDateAccount(): string {
     return this.accountService.upDateAccount();
+  }
+  @Get('admin/:idMarchand')
+  async getHistoriqueAdmin(@Param('idMarchand') idMarchand: string) {
+    return this.accountService.getHistoriqueAdmin(idMarchand);
   }
 }

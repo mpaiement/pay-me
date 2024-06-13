@@ -16,12 +16,16 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Get('historique/:idUser')
-  async getHistorique(@Param('idUser') idUser: string) {
-    return this.transactionService.getHistorique(idUser);
+  async getHistoriqueUser(@Param('idUser') idUser: string) {
+    return this.transactionService.getHistoriqueUser(idUser);
+  }
+  @Get('historique/marchand/:idMarchand')
+  async getHistoriqueMarchand(@Param('idMarchand') idMarchand: string) {
+    return this.transactionService.getHistoriqueMarchand(idMarchand);
   }
 
-  @Get('transferMoney/:idUser/:amount/:idMarchand')
-  async getTransferMoney(@Param() data: CreateTransactionMoneyDto) {
+  @Post('transferMoney')
+  async getTransferMoney(@Body() data: CreateTransactionMoneyDto) {
     console.log('🚀 ~ TransactionController ~ getTransferMoney ~ data:', data);
     return this.transactionService.transferMoney(data);
   }
@@ -39,3 +43,4 @@ export class TransactionController {
     return this.transactionService.upDateTransaction();
   }
 }
+

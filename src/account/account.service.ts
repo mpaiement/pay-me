@@ -8,9 +8,24 @@ export class AccountService {
   constructor(
     @InjectRepository(Account)
     private readonly accountRepository: Repository<Account>,
+    
   ) {}
   getAccount(): string {
     return 'nom de Account';
+  }
+  async getHistoriqueAdmin(idMarchand: string) {
+    try {
+      const historique = await this.accountRepository.query(`
+        SELECT a.amount AS amounttran
+        FROM account a
+        INNER JOIN card c ON a.idAccount = c.idAccount
+        INNER JOIN marchand m ON c.idCard = m.idCard
+        WHERE m.idMarchand = '${idMarchand}'
+      `);
+      return historique;
+    } catch (error) {
+      throw new Error('Failed to fetch admin history');
+    }
   }
 
   async createAccount(data: CreateAccountDto) {

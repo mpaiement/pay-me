@@ -73,11 +73,20 @@ export class TransactionService {
 
     return { userEnvoi, marchandRecevoir };
   }
-  async getHistorique(idUser: string) {
+  async getHistoriqueUser(idUser: string) {
     const historique = await this.usersRepository.query(`
-    select * from transaction
+    select  * from transaction
     INNER JOIN user ON user.idUser = transaction.idUser
     where transaction.idUser = '${idUser}'
+    `);
+    return historique;
+  }
+  async getHistoriqueMarchand(idMarchand: string) {
+    const historique = await this.usersRepository.query(`
+    select  user.name as username , marchand.name as marchandname, transaction.amount as amount1 from transaction
+    INNER JOIN marchand ON marchand.idMarchand = transaction.idMarchand
+    INNER JOIN user ON user.idUser = transaction.idUser
+    where transaction.idMarchand = '${idMarchand}'
     `);
     return historique;
   }
