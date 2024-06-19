@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as admin from 'firebase-admin';
+
 const firebaseProvider = {
   provide: 'FIREBASE_APP',
   inject: [ConfigService],
-  useFactory: (configService: ConfigService) => {
+  useFactory: () => {
     const firebaseConfig = {
       type: 'service_account',
       project_id: 'mobile-paiement',
@@ -21,6 +22,7 @@ const firebaseProvider = {
         'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-n0vgm%40mobile-paiement.iam.gserviceaccount.com',
       universe_domain: 'googleapis.com',
     } as admin.ServiceAccount;
+
     return admin.initializeApp({
       credential: admin.credential.cert(firebaseConfig),
       databaseURL: `https://${firebaseConfig.projectId}.firebaseio.com`,
@@ -29,6 +31,7 @@ const firebaseProvider = {
   },
 };
 
+@Global()
 @Module({
   imports: [ConfigModule],
   providers: [firebaseProvider],

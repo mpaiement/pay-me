@@ -14,8 +14,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { HttpModule } from '@nestjs/axios';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health/health.controller';
-
-
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
   imports: [
@@ -54,8 +53,9 @@ import { HealthController } from './health/health.controller';
     AccountModule,
     QrcodeModule,
     CardModule,
-    TerminusModule, 
-    HttpModule
+    TerminusModule,
+    HttpModule,
+    FirebaseModule,
   ],
   controllers: [AppController, HealthController],
   providers: [
