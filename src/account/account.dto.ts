@@ -6,4 +6,5 @@ export class CreateAccountDto {
 
   @IsNumber()
   amount: string;
+  
 }

@@ -27,6 +27,35 @@ export class AccountService {
       throw new Error('Failed to fetch admin history');
     }
   }
+  async getHistoriqueUser(idUser: string) {
+    try {
+      const historique = await this.accountRepository.query(`
+        SELECT u.idUser, u.name AS username, a.amount AS amounttranuser
+        FROM account a
+        INNER JOIN card c ON a.idAccount = c.idAccount
+        INNER JOIN user u ON c.idCard = u.idCard
+        WHERE u.idUser = '${idUser}'
+      `);
+      return historique;
+    } catch (error) {
+      throw new Error('Failed to fetch user history');
+    }
+  }
+
+  async getAllUsersWithAmounts() {
+    try {
+      const historique = await this.accountRepository.query(`
+        SELECT u.idUser, u.name AS username, a.amount AS amounttranuser
+        FROM account a
+        INNER JOIN card c ON a.idAccount = c.idAccount
+        INNER JOIN user u ON c.idCard = u.idCard
+      `);
+      return historique;
+    } catch (error) {
+      throw new Error('Failed to fetch users with amounts');
+    }
+  }
+  
 
   async createAccount(data: CreateAccountDto) {
     const result = await this.accountRepository.save(data);

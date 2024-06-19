@@ -22,4 +22,13 @@ export class Account {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  @Column('varchar')
+  userName: string;
+
+  @Column('varchar')
+  userCni: string;
+
+  @Column('varchar')
+  userCardNumber: string;
 }
