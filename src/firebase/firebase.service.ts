@@ -1,6 +1,7 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { getDatabase } from 'firebase-admin/database';
+import path from 'path';
+// import { getDatabase } from 'firebase-admin/database';
 
 @Injectable()
 export class FirebaseService {

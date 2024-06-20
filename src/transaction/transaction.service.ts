@@ -11,14 +11,13 @@ import { FirebaseService } from 'src/firebase/firebase.service';
 @Injectable()
 export class TransactionService {
   constructor(
-    private readonly firebase: FirebaseService,
-
     @InjectRepository(Transaction)
     private readonly transactionRepository: Repository<Transaction>,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     @InjectRepository(Account)
     private accountRepository: Repository<Account>,
+    private readonly firebase: FirebaseService,
   ) {}
 
   async saveTransaction(data: CreateTransactionDto) {
@@ -69,6 +68,24 @@ export class TransactionService {
     await this.firebase.addData(`/money`, {
       userAmount: 1000,
       marchandAmount: 26700,
+    });
+
+    const newUserAmount = await this.usersRepository.query(`
+      Select amount FROM card
+      INNER JOIN account ON account.idAccount = card.idAccount
+      INNER JOIN user ON user.idCard = card.idCard
+      where idUser = '${idUser}'
+    `);
+    const newMarchandAmount = await this.usersRepository.query(`
+      Select amount FROM card
+      INNER JOIN account ON account.idAccount = card.idAccount
+      INNER JOIN marchand ON marchand.idCard = card.idCard
+      where idMarchand = '${idMarchand}'
+    `);
+
+    await this.firebase.addData(`/money`, {
+      newUserAmount,
+      newMarchandAmount,
     });
     return { userEnvoi, marchandRecevoir };
   }

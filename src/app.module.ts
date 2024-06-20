@@ -41,6 +41,7 @@ import { FirebaseModule } from './firebase/firebase.module';
           logging: configService.get<boolean>('DB_LOGGING'),
           // entities: ['src/entity/*{.js,.ts}'],
           autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+          // entities: ['src/entity/*{.js,.ts}'],
         };
 
         return dbConfig;

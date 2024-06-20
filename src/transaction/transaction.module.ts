@@ -6,7 +6,6 @@ import { Transaction } from 'src/entities/transaction.entity';
 import { User } from 'src/entities/user.entity';
 import { Account } from 'src/entities/account.entity'
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([Transaction, User, Account])],
   controllers: [TransactionController],
