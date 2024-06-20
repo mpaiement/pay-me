@@ -67,8 +67,8 @@ export class TransactionService {
       where idMarchand = '${idMarchand}'
     `);
     await this.firebase.addData(`/money`, {
-      userAmount: 100,
-      marchandAmount: 200,
+      userAmount: 1000,
+      marchandAmount: 26700,
     });
     return { userEnvoi, marchandRecevoir };
   }
