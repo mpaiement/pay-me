@@ -39,7 +39,8 @@ import { FirebaseModule } from './firebase/firebase.module';
           database: configService.get<string>('MASTER_DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
-          entities: [__dirname + '/entity/*{.js,.ts}'],
+          autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+          // entities: ['src/entity/*{.js,.ts}'],
         };
 
         return dbConfig;
@@ -72,7 +73,7 @@ import { FirebaseModule } from './firebase/firebase.module';
           database: configService.get<string>('MASTER_DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
-          entities: [__dirname + '/entity/*{.js,.ts}'],
+          entities: ['src/entity/*{.js,.ts}'],
           // autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
         };
         const dataSource = new DataSource(masterConfig);

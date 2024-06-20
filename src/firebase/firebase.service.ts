@@ -1,21 +1,24 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { getDatabase } from 'firebase-admin/database';
+import path from 'path';
+// import { getDatabase } from 'firebase-admin/database';
 
 @Injectable()
 export class FirebaseService {
   constructor(
     @Inject('FIREBASE_APP') private readonly firebaseApp: admin.app.App,
   ) {}
+  private getDatabase() {
+    return this.firebaseApp.database();
+  }
 
-  async saveData(amountUser: number, amountMarchand: number) {
+  async saveData(path: string, data: any) {
     try {
-      const db = getDatabase();
-      const ref = db.ref('money');
+      const db = this.getDatabase();
+      const ref = db.ref(path);
 
       ref.set({
-        amountUser,
-        amountMarchand,
+        ...data,
         timestamp: Date.now(),
       });
     } catch (error) {

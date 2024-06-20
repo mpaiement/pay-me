@@ -14,22 +14,15 @@ import { FirebaseService } from 'src/firebase/firebase.service';
 
 @Injectable()
 export class TransactionService {
-  @InjectRepository(Transaction)
-  private readonly transactionRepository: Repository<Transaction>;
-  @InjectRepository(User)
-  private usersRepository: Repository<User>;
-  // @InjectRepository(Marchand)
-  // private marchandRepository: Repository<Marchand>;
-
-  // @InjectRepository(QrCode)
-  // private qrCodeRepository: Repository<QrCode>;
-
-  // @InjectRepository(Card)
-  // private cardRepository: Repository<Card>;
-
-  @InjectRepository(Account)
-  private accountRepository: Repository<Account>;
-  private readonly firebase: FirebaseService;
+  constructor(
+    @InjectRepository(Transaction)
+    private readonly transactionRepository: Repository<Transaction>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    @InjectRepository(Account)
+    private accountRepository: Repository<Account>,
+    private readonly firebase: FirebaseService,
+  ) {}
 
   async saveTransaction(data: CreateTransactionDto) {
     try {
@@ -72,7 +65,22 @@ export class TransactionService {
       set amount = (amount + ${amount})
       where idMarchand = '${idMarchand}'
     `);
-    await this.firebase.saveData(100, 200);
+    const newUserAmount = await this.usersRepository.query(`
+      Select amount FROM card
+      INNER JOIN account ON account.idAccount = card.idAccount
+      INNER JOIN user ON user.idCard = card.idCard
+      where idUser = '${idUser}'
+    `);
+    const newMarchandAmount = await this.usersRepository.query(`
+      Select amount FROM card
+      INNER JOIN account ON account.idAccount = card.idAccount
+      INNER JOIN marchand ON marchand.idCard = card.idCard
+      where idMarchand = '${idMarchand}'
+    `);
+    await this.firebase.saveData(`/money`, {
+      newUserAmount,
+      newMarchandAmount,
+    });
     return { userEnvoi, marchandRecevoir };
   }
   async getHistorique(idUser: string) {
