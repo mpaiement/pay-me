@@ -38,7 +38,9 @@ import { HealthController } from './health/health.controller';
           database: configService.get<string>('MASTER_DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
-          entities: [__dirname + '/entity/*{.js,.ts}'],
+          // entities: [__dirname + '/entity/*{.js,.ts}'],
+          autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+
         };
 
         return dbConfig;
@@ -70,8 +72,7 @@ import { HealthController } from './health/health.controller';
           database: configService.get<string>('MASTER_DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
-          entities: [__dirname + '/entity/*{.js,.ts}'],
-          // autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+          entities: ['src/entity/*{.js,.ts}'],
         };
         const dataSource = new DataSource(masterConfig);
         await dataSource.initialize();

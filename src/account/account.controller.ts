@@ -20,6 +20,6 @@ export class AccountController {
   }
   @Put()
   upDateAccount(): string {
-    return this.accountService.upDateAccount();
+    return this.accountService.updateAccount();
   }
 }
