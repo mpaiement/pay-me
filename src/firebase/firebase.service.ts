@@ -16,8 +16,10 @@ export class FirebaseService {
     try {
       const db = this.getDatabase();
       const ref = db.ref(path);
-      await ref.set({ ...data, timestamp: Date.now() });
+      const x= await ref.set({ ...data, timestamp: Date.now() });
+      console.log("🚀 ~ FirebaseService ~ addData ~ x:", x)
     } catch (error) {
+      console.log("🚀 ~ FirebaseService ~ addData ~ error:", error)
       throw new BadRequestException(error);
     }
   }

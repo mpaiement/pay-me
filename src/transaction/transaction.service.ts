@@ -65,10 +65,10 @@ export class TransactionService {
       set amount = (amount + ${amount})
       where idMarchand = '${idMarchand}'
     `);
-    await this.firebase.addData(`/money`, {
-      userAmount: 1000,
-      marchandAmount: 26700,
-    });
+    // await this.firebase.addData(`/money`, {
+    //   userAmount: 1000,
+    //   marchandAmount: 26700,
+    // });
 
     const newUserAmount = await this.usersRepository.query(`
       Select amount FROM card
@@ -76,16 +76,22 @@ export class TransactionService {
       INNER JOIN user ON user.idCard = card.idCard
       where idUser = '${idUser}'
     `);
+    console.log("🚀 ~ TransactionService ~ transferMoney ~ newUserAmount:", newUserAmount)
     const newMarchandAmount = await this.usersRepository.query(`
       Select amount FROM card
       INNER JOIN account ON account.idAccount = card.idAccount
       INNER JOIN marchand ON marchand.idCard = card.idCard
       where idMarchand = '${idMarchand}'
     `);
+    console.log("🚀 ~ TransactionService ~ transferMoney ~ newMarchandAmount:", newMarchandAmount)
 
+    //     await this.firebase.addData(`/money`, {
+    //   userAmount: 1000,
+    //   marchandAmount: 26700,
+    // });
     await this.firebase.addData(`/money`, {
-      newUserAmount,
-      newMarchandAmount,
+      userAmount: newUserAmount[0].amount,
+      marchandAmount: newMarchandAmount[0].amount,
     });
     return { userEnvoi, marchandRecevoir };
   }
