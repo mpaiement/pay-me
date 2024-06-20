@@ -10,6 +10,7 @@ import { QrCode } from 'src/entities/qrCode.entity';
 import { Card } from 'src/entities/card.entity';
 import { Account } from 'src/entities/account.entity';
 import { join } from 'path';
+import { FirebaseService } from 'src/firebase/firebase.service';
 
 @Injectable()
 export class TransactionService {
@@ -28,6 +29,7 @@ export class TransactionService {
 
   @InjectRepository(Account)
   private accountRepository: Repository<Account>;
+  private readonly firebase: FirebaseService;
 
   async saveTransaction(data: CreateTransactionDto) {
     try {
@@ -70,7 +72,7 @@ export class TransactionService {
       set amount = (amount + ${amount})
       where idMarchand = '${idMarchand}'
     `);
-
+    await this.firebase.saveData(100, 200);
     return { userEnvoi, marchandRecevoir };
   }
   async getHistorique(idUser: string) {
