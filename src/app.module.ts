@@ -29,11 +29,11 @@ import { ScheduleModule } from '@nestjs/schedule';
       useFactory(configService: ConfigService) {
         const dbConfig: any = {
           type: 'mysql',
-          host: configService.get<string>('DB_HOST'),
-          port: configService.get<number>('DB_PORT'),
-          username: configService.get<string>('DB_USERNAME'),
-          password: configService.get<string>('DB_PASSWORD'),
-          database: configService.get<string>('DB_NAME'),
+          host: configService.get<string>('MASTER_DB_HOST'),
+          port: configService.get<number>('MASTER_DB_PORT'),
+          username: configService.get<string>('MASTER_DB_USERNAME'),
+          password: configService.get<string>('MASTER_DB_PASSWORD'),
+          database: configService.get<string>('MASTER_DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
           autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
@@ -54,4 +54,5 @@ import { ScheduleModule } from '@nestjs/schedule';
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {}
