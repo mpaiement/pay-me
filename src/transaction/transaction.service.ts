@@ -4,32 +4,22 @@ import { Repository } from 'typeorm';
 import { Transaction } from 'src/entities/transaction.entity';
 import { CreateTransactionDto } from './transaction.dto';
 import { User } from 'src/entities/user.entity';
-import { Marchand } from 'src/entities/marchand.entity';
 import { CreateTransactionMoneyDto } from './transactionmoney.dto';
-import { QrCode } from 'src/entities/qrCode.entity';
-import { Card } from 'src/entities/card.entity';
 import { Account } from 'src/entities/account.entity';
-import { join } from 'path';
 import { FirebaseService } from 'src/firebase/firebase.service';
 
 @Injectable()
 export class TransactionService {
-  @InjectRepository(Transaction)
-  private readonly transactionRepository: Repository<Transaction>;
-  @InjectRepository(User)
-  private usersRepository: Repository<User>;
-  // @InjectRepository(Marchand)
-  // private marchandRepository: Repository<Marchand>;
+  constructor(
+    private readonly firebase: FirebaseService,
 
-  // @InjectRepository(QrCode)
-  // private qrCodeRepository: Repository<QrCode>;
-
-  // @InjectRepository(Card)
-  // private cardRepository: Repository<Card>;
-
-  @InjectRepository(Account)
-  private accountRepository: Repository<Account>;
-  private readonly firebase: FirebaseService;
+    @InjectRepository(Transaction)
+    private readonly transactionRepository: Repository<Transaction>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    @InjectRepository(Account)
+    private accountRepository: Repository<Account>,
+  ) {}
 
   async saveTransaction(data: CreateTransactionDto) {
     try {
@@ -49,6 +39,10 @@ export class TransactionService {
       INNER JOIN user ON user.idCard = card.idCard
       where idUser = '${idUser}'
     `);
+    console.log(
+      '🚀 ~ TransactionService ~ transferMoney ~ userAmount:',
+      userAmount,
+    );
     const amountResult = userAmount[0].amount;
 
     if (amountResult < Number(amount)) {
@@ -72,7 +66,10 @@ export class TransactionService {
       set amount = (amount + ${amount})
       where idMarchand = '${idMarchand}'
     `);
-    await this.firebase.saveData(100, 200);
+    await this.firebase.addData(`/money`, {
+      userAmount: 100,
+      marchandAmount: 200,
+    });
     return { userEnvoi, marchandRecevoir };
   }
   async getHistorique(idUser: string) {

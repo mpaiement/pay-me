@@ -20,8 +20,8 @@ export class TransactionController {
     return this.transactionService.getHistorique(idUser);
   }
 
-  @Get('transferMoney/:idUser/:amount/:idMarchand')
-  async getTransferMoney(@Param() data: CreateTransactionMoneyDto) {
+  @Post('transferMoney')
+  async getTransferMoney(@Body() data: CreateTransactionMoneyDto) {
     console.log('🚀 ~ TransactionController ~ getTransferMoney ~ data:', data);
     return this.transactionService.transferMoney(data);
   }

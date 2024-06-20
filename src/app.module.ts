@@ -32,14 +32,15 @@ import { FirebaseModule } from './firebase/firebase.module';
       useFactory(configService: ConfigService) {
         const dbConfig: any = {
           type: 'mysql',
-          host: configService.get<string>('MASTER_DB_HOST'),
-          port: configService.get<number>('MASTER_DB_PORT'),
-          username: configService.get<string>('MASTER_DB_USERNAME'),
-          password: configService.get<string>('MASTER_DB_PASSWORD'),
-          database: configService.get<string>('MASTER_DB_NAME'),
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
-          entities: [__dirname + '/entity/*{.js,.ts}'],
+          // entities: ['src/entity/*{.js,.ts}'],
+          autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
         };
 
         return dbConfig;
@@ -65,14 +66,14 @@ import { FirebaseModule } from './firebase/firebase.module';
       useFactory: async (configService: ConfigService) => {
         const masterConfig: DataSourceOptions = {
           type: 'mysql',
-          host: configService.get<string>('MASTER_DB_HOST'),
-          port: configService.get<number>('MASTER_DB_PORT'),
-          username: configService.get<string>('MASTER_DB_USERNAME'),
-          password: configService.get<string>('MASTER_DB_PASSWORD'),
-          database: configService.get<string>('MASTER_DB_NAME'),
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
-          entities: [__dirname + '/entity/*{.js,.ts}'],
+          entities: ['src/entity/*{.js,.ts}'],
           // autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
         };
         const dataSource = new DataSource(masterConfig);

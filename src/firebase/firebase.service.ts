@@ -8,18 +8,16 @@ export class FirebaseService {
     @Inject('FIREBASE_APP') private readonly firebaseApp: admin.app.App,
   ) {}
 
-  async saveData(amountUser: number, amountMarchand: number) {
+  private getDatabase() {
+    return this.firebaseApp.database();
+  }
+  async addData(path: string, data: any): Promise<void> {
     try {
-      const db = getDatabase();
-      const ref = db.ref('money');
-
-      ref.set({
-        amountUser,
-        amountMarchand,
-        timestamp: Date.now(),
-      });
+      const db = this.getDatabase();
+      const ref = db.ref(path);
+      await ref.set({ ...data, timestamp: Date.now() });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error);
     }
   }
 }
