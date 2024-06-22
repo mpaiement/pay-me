@@ -20,7 +20,7 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  @Cron('*/10 * * * * *')
+  // @Cron('*/10 * * * * *')
   async check() {
     const check = await this.health.check([
       () => this.db.pingCheck('database'),
