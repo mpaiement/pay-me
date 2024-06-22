@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Card } from './card.entity';
 import { Transaction } from './transaction.entity';
+import { QrCode } from './qrCode.entity';
 @Unique('uniqueEmail', ['email'])
 @Entity({ name: 'marchand' })
 export class Marchand {
@@ -27,6 +28,10 @@ export class Marchand {
 
   @OneToMany(() => Transaction, (transaction) => transaction.idMarchand)
   transaction: Transaction;
+
+  // One Marchand can have many QrCodes
+  @OneToMany(() => QrCode, (qrCode) => qrCode.idMarchand)
+  qrCodes: QrCode[];
 
   @OneToOne(() => Card)
   @JoinColumn({
