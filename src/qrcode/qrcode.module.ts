@@ -8,5 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [TypeOrmModule.forFeature([QrCode])],
   controllers: [QrcodeController],
   providers: [QrcodeService],
+  exports: [QrcodeService]
 })
-export class QrcodeModule {}
+export class QrcodeModule { }

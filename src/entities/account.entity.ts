@@ -15,7 +15,7 @@ export class Account {
   accountNumber: string;
 
   @Column('float')
-  amount: string;
+  amount: number;
 
   @CreateDateColumn()
   createdDate: Date;
@@ -31,4 +31,7 @@ export class Account {
 
   @Column('varchar')
   userCardNumber: string;
+
+  @Column('varchar')
+  accountToken: string;
 }

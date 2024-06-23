@@ -1,8 +1,9 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Marchand } from './marchand.entity';
@@ -15,10 +16,14 @@ export class QrCode {
   @Column('text')
   url: string;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 6 })
   amount: number;
 
-  @OneToOne(() => Marchand)
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  // Many QrCodes can belong to one Marchand
+  @ManyToOne(() => Marchand, (marchand) => marchand.qrCodes, { nullable: false })
   @JoinColumn({
     name: 'idMarchand',
     referencedColumnName: 'idMarchand',

@@ -9,8 +9,12 @@ import { TransactionModule } from './transaction/transaction.module';
 import { MarchandModule } from './marchand/marchand.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HealthModule } from './health/health.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { HttpModule } from '@nestjs/axios';
+import { TerminusModule } from '@nestjs/terminus';
+import { HealthController } from './health/health.controller';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
   imports: [
@@ -21,7 +25,6 @@ import { ScheduleModule } from '@nestjs/schedule';
       isGlobal: true,
       cache: true,
       envFilePath: '.env',
-
     }),
     ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
@@ -36,23 +39,50 @@ import { ScheduleModule } from '@nestjs/schedule';
           database: configService.get<string>('MASTER_DB_NAME'),
           synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
           logging: configService.get<boolean>('DB_LOGGING'),
+          // entities: ['src/entity/*{.js,.ts}'],
           autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+          // entities: ['src/entity/*{.js,.ts}'],
         };
 
         return dbConfig;
       },
       inject: [ConfigService],
     }),
+    // TypeOrmModule.forRoot(datasourceOptionsMaster),
     UserModule,
     TransactionModule,
     MarchandModule,
     AccountModule,
     QrcodeModule,
     CardModule,
-    HealthModule,
+    TerminusModule,
+    HttpModule,
+    FirebaseModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, HealthController],
+  providers: [
+    AppService,
+    {
+      provide: 'DATABASE_CONNECTION',
+      useFactory: async (configService: ConfigService) => {
+        const masterConfig: DataSourceOptions = {
+          type: 'mysql',
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
+          synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
+          logging: configService.get<boolean>('DB_LOGGING'),
+          entities: ['src/entity/*{.js,.ts}'],
+          // autoLoadEntities: configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
+        };
+        const dataSource = new DataSource(masterConfig);
+        await dataSource.initialize();
+        return dataSource;
+      },
+      inject: [ConfigService],
+    },
+  ],
 })
-
-export class AppModule {}
+export class AppModule { }

@@ -1,10 +1,21 @@
-import { IsNumber } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateAccountDto {
-  @IsNumber()
+  @IsString()
   accountNumber: string;
 
   @IsNumber()
-  amount: string;
-  
+  amount: number;
+
+  @IsString()
+  userName: string;
+
+  @IsString()
+  userCni: string;
+
+  @IsString()
+  userCardNumber: string;
+
+  @IsString()
+  accountToken: string;
 }

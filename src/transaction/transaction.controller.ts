@@ -13,7 +13,7 @@ import { CreateTransactionMoneyDto } from './transactionmoney.dto';
 
 @Controller('transaction')
 export class TransactionController {
-  constructor(private readonly transactionService: TransactionService) {}
+  constructor(private readonly transactionService: TransactionService) { }
 
   @Get('historique/:idUser')
   async getHistoriqueUser(@Param('idUser') idUser: string) {
@@ -24,7 +24,7 @@ export class TransactionController {
     return this.transactionService.getHistoriqueMarchand(idMarchand);
   }
 
-  @Post('transferMoney')
+  @Post('transfertMoney')
   async getTransferMoney(@Body() data: CreateTransactionMoneyDto) {
     console.log('🚀 ~ TransactionController ~ getTransferMoney ~ data:', data);
     return this.transactionService.transferMoney(data);
