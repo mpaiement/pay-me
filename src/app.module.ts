@@ -85,4 +85,4 @@ import { FirebaseModule } from './firebase/firebase.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

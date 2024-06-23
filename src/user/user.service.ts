@@ -8,6 +8,11 @@ import { CardService } from 'src/card/card.service';
 import { Card } from 'src/entities/card.entity';
 import { UpdateUserCardDto } from './user-card.dto';
 
+import * as jwt from 'jsonwebtoken';
+import { Account } from 'src/entities/account.entity';
+import * as bcrypt from 'bcrypt'
+const secretKey = 'c28b8bd3f146d5154ee88fd8cdae0450fc6280c8da7df53483e78e29209037c7';
+
 @Injectable()
 export class UserService {
 
@@ -17,50 +22,74 @@ export class UserService {
     private usersRepository: Repository<User>,
     @InjectRepository(Card)
     private cardRepository: Repository<Card>,
+    @InjectRepository(Account)
+    private accountRepository: Repository<Account>,
   ) { }
 
   async getUser() {
     const result = await this.usersRepository.find();
-
     return result;
   }
 
   async recupererUser(idUser: string) {
     const result = await this.usersRepository.query(`
-    
-    select * from user
+      SELECT * FROM user
       INNER JOIN card ON card.idCard = user.idCard
-      where user.idUser ='${idUser}'
-    `)
+      WHERE user.idUser ='${idUser}'
+    `);
     return result;
   }
 
   async updateUser(idUser: string, data: UpdateUserCardDto) {
-
     const user = await this.usersRepository.findOneBy({ idUser });
     const { name, email, phone, cni } = data;
-    const updateUser = await this.usersRepository.update(idUser,
-      {
-        name,
-        email,
-        phone,
-        cni
-      });
+    const updateUser = await this.usersRepository.update(idUser, {
+      name,
+      email,
+      phone,
+      cni,
+    });
 
     const { cardNumber, cvv } = data;
-    const updateCard = await this.cardRepository.update({ idCard: user.idCard },
-      {
-        cardNumber,
-        cvv
+    const updateCard = await this.cardRepository.update({ idCard: user.idCard }, {
+      cardNumber,
+      cvv,
+    });
 
-      });
-
-
-    return { ...updateUser, ...updateCard }
+    return { ...updateUser, ...updateCard };
   }
+  // Import bcrypt library
 
   async createUser(idUser: string, data: CreateUserCardDto) {
-    const card = await this.cardService.createCard(data);
+    let idAccount: string;
+    const userHash = `${data.name}${data.cardNumber}${data.cni}`;
+
+    // Find all accounts and compare hashes
+    const accounts = await this.accountRepository.find();
+
+    for (const account of accounts) {
+      const storedHashedPassword = account.accountToken;
+      const isMatch = await bcrypt.compare(userHash, storedHashedPassword);
+
+      if (isMatch) {
+        idAccount = account.idAccount;
+        break; // Exit loop once a match is found
+      }
+    }
+
+    if (!idAccount) {
+      throw new Error('No account found with matching credentials.');
+    }
+
+    // Create card
+    const card = await this.cardService.createCard({
+      cardNumber: data.cardNumber,
+      cvv: data.cvv,
+      expiryDate: data.expiryDate,
+      idAccount,
+    });
+
+    // Create user
     const user = this.usersRepository.create({
       idUser: idUser,
       name: data.name,
@@ -69,11 +98,12 @@ export class UserService {
       cni: data.cni,
       idCard: card.idCard,
     });
+
     const result = await this.usersRepository.save(user);
 
-    return { card: card, user: result }
-
+    return { card: card, user: result };
   }
+
 
   async deleteUser(idUser: string) {
     const user = await this.usersRepository.findOneBy({ idUser });

@@ -1,14 +1,15 @@
 import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './account.dto';
+import { Account } from 'src/entities/account.entity';
 
 @Controller('account')
 export class AccountController {
-  constructor(private readonly accountService: AccountService) {}
+  constructor(private readonly accountService: AccountService) { }
 
   @Get()
-  getAccount(): string {
-    return this.accountService.getAccount();
+  async getAccount(): Promise<Account[]> {
+    return await this.accountService.getAccount();
   }
   @Post('create')
   createAccount(@Body() data: CreateAccountDto) {
@@ -20,6 +21,6 @@ export class AccountController {
   }
   @Put()
   upDateAccount(): string {
-    return this.accountService.upDateAccount();
+    return this.accountService.updateAccount();
   }
 }
