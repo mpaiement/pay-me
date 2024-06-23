@@ -39,7 +39,7 @@ export class Transaction {
   })
   idUser: User['idUser'];
 
-  @OneToOne(() => QrCode) // specify inverse side as a second parameter
+  @OneToOne(() => QrCode)
   @JoinColumn({
     name: 'idQrcode',
     referencedColumnName: 'idQrcode',

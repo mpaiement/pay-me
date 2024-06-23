@@ -43,7 +43,7 @@ export class HealthController {
       database: this.configService.get<string>('SLAVE_DB_NAME'),
       synchronize: this.configService.get<boolean>('DB_SYNCHRONIZATION'),
       logging: this.configService.get<boolean>('DB_LOGGING'),
-      entities: [__dirname + '/entity/*{.js,.ts}'],
+      entities: ['src/entity/*{.js,.ts}'],
 
       //autoLoadEntities: this.configService.get<boolean>('DB_AUTOLOAD_ENTITIES'),
     };
