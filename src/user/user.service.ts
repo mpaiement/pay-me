@@ -10,7 +10,7 @@ import { UpdateUserCardDto } from './user-card.dto';
 
 import * as jwt from 'jsonwebtoken';
 import { Account } from 'src/entities/account.entity';
-
+import * as bcrypt from 'bcrypt'
 const secretKey = 'c28b8bd3f146d5154ee88fd8cdae0450fc6280c8da7df53483e78e29209037c7';
 
 @Injectable()
@@ -58,46 +58,38 @@ export class UserService {
 
     return { ...updateUser, ...updateCard };
   }
+  // Import bcrypt library
 
   async createUser(idUser: string, data: CreateUserCardDto) {
-    const payload = {
-      userName: data.name,
-      userCardNumber: data.cardNumber,
-      userCni: data.cni,
-    };
-    const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
-    console.log("🚀 ~ UserService ~ createUser ~ token:", token);
-
-    const userToken = jwt.decode(token);
-    console.log("🚀 ~ UserService ~ createUser ~ userToken:", userToken);
-
     let idAccount: string;
+    const userHash = `${data.name}${data.cardNumber}${data.cni}`;
 
-    const query = await this.accountRepository.createQueryBuilder()
-      .select('accountToken')
-      .execute();
-    console.log("🚀 ~ UserService ~ createUser ~ query:", query)
+    // Find all accounts and compare hashes
+    const accounts = await this.accountRepository.find();
 
-    for (const value of query) {
-      const decodedToken = jwt.decode(value.accountToken);
-      console.log("🚀 ~ UserService ~ createUser ~ decodedToken:", decodedToken)
-      console.log("🚀 ~ UserService ~ createUser ~  (decodedToken === userToken):", (decodedToken === userToken))
-      if (decodedToken === userToken) {
+    for (const account of accounts) {
+      const storedHashedPassword = account.accountToken;
+      const isMatch = await bcrypt.compare(userHash, storedHashedPassword);
 
-
-        const result = await this.accountRepository.find({ where: { accountToken: value.accountToken } });
-        idAccount = result[0].idAccount;
-
+      if (isMatch) {
+        idAccount = account.idAccount;
+        break; // Exit loop once a match is found
       }
-
     }
 
+    if (!idAccount) {
+      throw new Error('No account found with matching credentials.');
+    }
+
+    // Create card
     const card = await this.cardService.createCard({
       cardNumber: data.cardNumber,
       cvv: data.cvv,
       expiryDate: data.expiryDate,
       idAccount,
     });
+
+    // Create user
     const user = this.usersRepository.create({
       idUser: idUser,
       name: data.name,
@@ -106,10 +98,12 @@ export class UserService {
       cni: data.cni,
       idCard: card.idCard,
     });
+
     const result = await this.usersRepository.save(user);
 
     return { card: card, user: result };
   }
+
 
   async deleteUser(idUser: string) {
     const user = await this.usersRepository.findOneBy({ idUser });
