@@ -19,7 +19,7 @@ import { FirebaseModule } from './firebase/firebase.module';
 @Module({
   imports: [
     /**
-     * Load and parse an env file from the root directory dewjdgdjed
+     * Load and parse an env file from the root directory 
      */
     ConfigModule.forRoot({
       isGlobal: true,

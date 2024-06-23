@@ -13,11 +13,15 @@ import { CreateTransactionMoneyDto } from './transactionmoney.dto';
 
 @Controller('transaction')
 export class TransactionController {
-  constructor(private readonly transactionService: TransactionService) {}
+  constructor(private readonly transactionService: TransactionService) { }
 
   @Get('historique/:idUser')
-  async getHistorique(@Param('idUser') idUser: string) {
-    return this.transactionService.getHistorique(idUser);
+  async getHistoriqueUser(@Param('idUser') idUser: string) {
+    return this.transactionService.getHistoriqueUser(idUser);
+  }
+  @Get('historique/marchand/:idMarchand')
+  async getHistoriqueMarchand(@Param('idMarchand') idMarchand: string) {
+    return this.transactionService.getHistoriqueMarchand(idMarchand);
   }
 
   @Post('transfertMoney')
@@ -39,3 +43,4 @@ export class TransactionController {
     return this.transactionService.upDateTransaction();
   }
 }
+
