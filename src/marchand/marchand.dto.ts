@@ -1,4 +1,4 @@
-import { IsEmail, IsPhoneNumber, IsString } from 'class-validator';
+import { IsDate, IsEmail, IsNumber, IsPhoneNumber, IsString } from 'class-validator';
 
 export class CreateMarchandDto {
   @IsString()
@@ -10,6 +10,18 @@ export class CreateMarchandDto {
   @IsEmail()
   email: string;
 
-  @IsPhoneNumber('DZ')
+  @IsPhoneNumber()
   phone: string;
+
+  @IsString()
+  cardNumber: string;
+
+  @IsNumber()
+  cvv: string;
+
+  @IsDate()
+  expiryDate: string;
+
+  @IsNumber()
+  cni: string;
 }
