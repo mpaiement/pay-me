@@ -39,13 +39,13 @@ export class Transaction {
   })
   idUser: User['idUser'];
 
-  @OneToOne(() => QrCode)
+  @OneToOne(() => QrCode, { createForeignKeyConstraints: false })
   @JoinColumn({
     name: 'idQrcode',
     referencedColumnName: 'idQrcode',
     foreignKeyConstraintName: 'FK_transaction_qrcode',
   })
-  idQrcode: QrCode['idQrcode'];
+  idQrcode: QrCode['url'];
 
   @ManyToOne(() => Marchand, (marchand) => marchand.transaction)
   @JoinColumn({

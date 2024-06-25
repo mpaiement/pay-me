@@ -14,6 +14,10 @@ import { CreateTransactionMoneyDto } from './transactionmoney.dto';
 @Controller('transaction')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) { }
+  @Get()
+  async getAllTransaction() {
+    return this.transactionService.getAllTransaction();
+  }
 
   @Get('historique/:idUser')
   async getHistoriqueUser(@Param('idUser') idUser: string) {
@@ -34,9 +38,9 @@ export class TransactionController {
   async createTransaction(@Body() data: CreateTransactionDto) {
     return this.transactionService.saveTransaction(data);
   }
-  @Delete('deleteTransaction')
-  deleteTransaction(): string {
-    return this.transactionService.deleteTransaction();
+  @Delete('delete')
+  deleteTransaction(@Param('idTransaction') idTransaction: string) {
+    return this.transactionService.deleteTransaction(idTransaction);
   }
   @Put('putTransaction')
   upDateTransaction(): string {

@@ -40,6 +40,19 @@ export class TransactionService {
       INNER JOIN user ON user.idCard = card.idCard
       where idUser = '${idUser}'
     `);
+
+    const marchandAmount = await this.usersRepository.query(`
+      Select amount FROM card
+      INNER JOIN account ON account.idAccount = card.idAccount
+      INNER JOIN marchand ON marchand.idCard = card.idCard
+      where idMarchand = '${idMarchand}'
+    `);
+
+    await this.firebase.addData(`/money`, {
+      userAmount: userAmount[0].amount,
+      marchandAmount: marchandAmount[0].amount,
+    });
+
     const amountResult = userAmount[0].amount;
 
     if (amountResult < Number(amount)) {
@@ -68,7 +81,7 @@ export class TransactionService {
     const result = await this.saveTransaction({
       idMarchand,
       idUser,
-      idQrcode: recentQrCode.idQrcode,
+      idQrcode: recentQrCode.url,
       amount,
     });
 
@@ -89,6 +102,7 @@ export class TransactionService {
     await this.firebase.addData(`/money`, {
       userAmount: newUserAmount[0].amount,
       marchandAmount: newMarchandAmount[0].amount,
+      amount,
     });
 
     return result;
@@ -111,8 +125,12 @@ export class TransactionService {
     return historique;
   }
 
-  deleteTransaction() {
-    return ' la transaction est supprimé';
+  async getAllTransaction() {
+    return await this.transactionRepository.find()
+  }
+
+  async deleteTransaction(idTransaction: string) {
+    return await this.transactionRepository.softDelete(idTransaction)
   }
   upDateTransaction() {
     return 'modification de la transaction';

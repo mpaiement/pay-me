@@ -7,11 +7,8 @@ import { CreateUserCardDto } from './usercard.dto';
 import { CardService } from 'src/card/card.service';
 import { Card } from 'src/entities/card.entity';
 import { UpdateUserCardDto } from './user-card.dto';
-
-import * as jwt from 'jsonwebtoken';
 import { Account } from 'src/entities/account.entity';
 import * as bcrypt from 'bcrypt'
-const secretKey = 'c28b8bd3f146d5154ee88fd8cdae0450fc6280c8da7df53483e78e29209037c7';
 
 @Injectable()
 export class UserService {
